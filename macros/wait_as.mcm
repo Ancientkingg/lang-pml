@@ -1,5 +1,7 @@
-# Author: Ancientkingg
-# Description: Basically /schedule but retains context for the entity.
+###
+Author: Ancientkingg
+Description: Basically /schedule but retains context for the entity.
+###
 # Note that it will add n objectives for the amount of macro calls.
 
 #wait as @e for 200t run{}
