@@ -1,3 +1,8 @@
+###
+Author: Fetchbot
+Description: LCG implementation into minecraft (RNG).
+###
+
 macro rng{
     load{
         scoreboard objectives add rng dummy
