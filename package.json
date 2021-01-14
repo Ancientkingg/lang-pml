@@ -1,14 +1,8 @@
 {
   "name": "pml",
   "version": "1.0.0",
-  "description": "pml",
+  "description": "A public macro library for mc-build",
   "main": "entry.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Ancientkingg",
-  "license": "MIT",
-  "dependencies": {
-    "node-fetch": "^2.6.1"
-  }
+  "license": "MIT"
 }
