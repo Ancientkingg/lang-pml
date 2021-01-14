@@ -7,7 +7,6 @@ module.exports = function mcb_happy() {
 
 const fs = require("fs");
 const macro_dir = "./src/macros";
-const fetch = require("node-fetch");
 let repo;
 const path = require("path");
 const MACRO_DIR = path.join(__dirname, "macros");
