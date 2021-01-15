@@ -27,4 +27,4 @@ macro test{
 }
 ```
 The author and description should always be on the second and third line respectively.
-Next. Make a pull request which contains your new macro in the `/macros` folder
+Next, make a pull request which contains your new macro in the `/macros` folder
