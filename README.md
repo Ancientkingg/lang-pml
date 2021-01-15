@@ -1,5 +1,5 @@
 # Public Macro Library
-This repository hosts the public macro library plugin made for (mc-build)[https://mcbuild.dev]
+This repository hosts the public macro library plugin made for [mc-build](https://mcbuild.dev)
 
 ## pre-requisites
 mc-build
