@@ -2,7 +2,7 @@
 This repository hosts the public macro library plugin made for [mc-build](https://mcbuild.dev)
 
 ## pre-requisites
-mc-build
+The latest version of mc-build installed
 
 ## How to use
 ```
