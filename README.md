@@ -11,7 +11,6 @@ mcb pml catalog
 ```
 ```
 # To add a macro to your source directory type in
-
 mcb pml add <macro_name>
 ```
 Note for macro names that are too long to be displayed in the catalog, a part of the name can be typed in and it will look for the closest match.
