@@ -14,7 +14,6 @@ mcb pml catalog
 mcb pml add <macro_name>
 ```
 Note for macro names that are too long to be displayed in the catalog, a part of the name can be typed in and it will look for the closest match.
-```
 ## How to publish a macro
 Add an author and description to your macro as such:
 ```
