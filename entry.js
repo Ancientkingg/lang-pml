@@ -7,7 +7,7 @@ module.exports = function mcb_happy() {
 
 const fs = require("fs");
 const macro_dir = "./src/macros";
-let repo;
+let repo = [];
 const path = require("path");
 const MACRO_DIR = path.join(__dirname, "macros");
 const PML = "[ \u001b[95mpml\u001b[39m ] ";
@@ -17,31 +17,7 @@ if (process.argv[2] === "pml") {
     repo = fs.readdirSync(MACRO_DIR);
     // the catalog command should display all the available macros in the repo through the github api, by making a request
     if (process.argv[3] === "catalog") {
-        let arr = [];
-        let author = [];
-        let description = [];
-        for (i = 0; i < repo.length; i++) {
-            let promise = fs.promises.readFile(path.join(MACRO_DIR, repo[i]), 'utf-8').then((data) => {
-                let fileContents = data.split("\n");
-                fileContents.length = 3
-
-                if (fileContents[1].startsWith("Author:")) {
-                    author.push(fileContents[1].substring(7));
-                } else {
-                    author.push("Unknown")
-                }
-                if (fileContents[2].startsWith("Description:")) {
-                    description.push(fileContents[2].substring(13));
-                } else {
-                    description.push("No description")
-                }
-            });
-            arr.push(promise)
-        }
-        Promise.all(arr).then(() => {
-            catalog(repo, author, description);
-            process.exit(1);
-        })
+        processMacro(repo);
     }
     if (process.argv[3] === "add") {
         let macro_name = process.argv[4];
@@ -91,4 +67,28 @@ function catalog(repo, author, description) {
         console.log("┃ • \u001b[1m\u001b[34m" + name + "\u001b[39m\u001b[22m" + " " + auth + " " + desc);
     }
     console.log("\u001b[0m┗	 \n \n\u001b[0m");
+}
+
+async function processMacro(repo){
+    let author = [];
+    let description = [];
+    for (const item of repo){
+        await fs.promises.readFile(path.join(MACRO_DIR, item), 'utf-8').then((data) => {
+            let fileContents = data.split("\n");
+            fileContents.length = 3
+
+            if (fileContents[1].startsWith("Author:")) {
+                author.push(fileContents[1].substring(7));
+            } else {
+                author.push("Unknown")
+            }
+            if (fileContents[2].startsWith("Description:")) {
+                description.push(fileContents[2].substring(13));
+            } else {
+                description.push("No description")
+            }
+        });
+    }
+    catalog(repo, author, description);
+    process.exit(1);
 }
