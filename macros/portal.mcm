@@ -1,0 +1,407 @@
+###
+Author: VelVoxelRaptor
+Description: Lets you generate custom portals for custom dimensions! Or regular dimensions.
+###
+
+# Download the resource pack for the best effect!
+# https://mega.nz/file/DRxWjShZ#RkINpLycosM7IshIw81cxaBy6AOQAmd6KkIBaOvBXy0
+
+#Syntax
+#   portal <ignition> <base_block> <color> <dimension>
+##      ignition: How the portal is ignited. Can be a block or an item! If its an item type item then the item name (see working examples below)!
+##                Typing in fire, water, or lava, will activate when you use flint/steel or buckets, rather than the block itself!       
+###         base_block: The base block used to build your portal.
+####            color: The color of your portal. Uses the same color numbers as leather armor!
+#####               dimension: The dimension your custom portal leads to!
+
+
+# Working example!
+# portal item iron_sword redstone_block 0 the_nether
+# portal gold_block glowstone 16711680 not_overworld
+
+
+
+macro portal {
+
+
+!IF("$$0" == "fire") {
+# Flint/Steel scoreboard for fire block check!
+scoreboard objectives add fire minecraft.used:minecraft.flint_and_steel
+
+}
+
+!IF("$$0" == "water") {
+# Bucket scoreboard for water block check!
+scoreboard objectives add water minecraft.used:minecraft.flint_and_steel
+}
+
+!IF("$$0" == "lava") {
+# Bucket scoreboard for lava block check!
+scoreboard objectives add lava minecraft.used:minecraft.flint_and_steel
+}
+
+!IF("$$0" == "item") {
+    tag @e[type=item,nbt={Item:{id:"minecraft:$$1"}}] add $$4
+#X Axis Check for Item drop
+(
+execute as @e[type=item,nbt={Item:{id:"minecraft:$$1"}}] at @s run
+execute if block ~1 ~ ~ $$2 run
+execute if block ~1 ~1 ~ $$2 run
+execute if block ~1 ~2 ~ $$2 run
+execute if block ~ ~-1 ~ $$2 run
+execute if block ~-1 ~-1 ~ $$2 run
+execute if block ~-2 ~ ~ $$2 run
+execute if block ~-2 ~1 ~ $$2 run
+execute if block ~-2 ~2 ~ $$2 run
+execute if block ~ ~3 ~ $$2 run
+execute if block ~-1 ~3 ~ $$2 run tag @s add PortalX
+)
+(
+execute as @e[type=item,nbt={Item:{id:"minecraft:$$1"}}] at @s run
+execute if block ~-1 ~ ~ $$2 run
+execute if block ~-1 ~1 ~ $$2 run
+execute if block ~-1 ~2 ~ $$2 run
+execute if block ~ ~-1 ~ $$2 run
+execute if block ~1 ~-1 ~ $$2 run
+execute if block ~2 ~ ~ $$2 run
+execute if block ~2 ~1 ~ $$2 run
+execute if block ~2 ~2 ~ $$2 run
+execute if block ~ ~3 ~ $$2 run
+execute if block ~1 ~3 ~ $$2 run tag @s add PortalNX
+)
+#Z Axis Check for item drop
+(
+execute as @e[type=item,nbt={Item:{id:"minecraft:$$1"}}] at @s run
+execute if block ~ ~ ~1 $$2 run
+execute if block ~ ~1 ~1 $$2 run
+execute if block ~ ~2 ~1 $$2 run
+execute if block ~ ~-1 ~ $$2 run
+execute if block ~ ~-1 ~-1 $$2 run
+execute if block ~ ~ ~-2 $$2 run
+execute if block ~ ~1 ~-2 $$2 run
+execute if block ~ ~2 ~-2 $$2 run
+execute if block ~ ~3 ~ $$2 run
+execute if block ~ ~3 ~-1 $$2 run tag @s add PortalZ 
+)
+(
+execute as @e[type=item,nbt={Item:{id:"minecraft:$$1"}}] at @s run
+execute if block ~ ~ ~-1 $$2 run
+execute if block ~ ~1 ~-1 $$2 run
+execute if block ~ ~2 ~-1 $$2 run
+execute if block ~ ~-1 ~ $$2 run
+execute if block ~ ~-1 ~1 $$2 run
+execute if block ~ ~ ~2 $$2 run
+execute if block ~ ~1 ~2 $$2 run
+execute if block ~ ~2 ~2 $$2 run
+execute if block ~ ~3 ~ $$2 run
+execute if block ~ ~3 ~1 $$2 run tag @s add PortalNZ 
+)
+
+}
+
+!IF("$$0" !== "water") {
+    !IF("$$0" !== "fire") {
+        !IF("$$0" !== "lava") {
+            !IF("$$0" !== "item") {
+                scoreboard objectives add $$0 minecraft.used:minecraft.$$0
+            }
+
+        }
+    }
+}
+
+!IF("$$0" !== "item") {
+
+#X Axis Check for block
+(
+execute as @e[name=PortalLock,tag=Lock] at @s run
+execute if block ~1 ~ ~ $$1 run
+execute if block ~1 ~1 ~ $$1 run
+execute if block ~1 ~2 ~ $$1 run
+execute if block ~ ~-1 ~ $$1 run
+execute if block ~-1 ~-1 ~ $$1 run
+execute if block ~-2 ~ ~ $$1 run
+execute if block ~-2 ~1 ~ $$1 run
+execute if block ~-2 ~2 ~ $$1 run
+execute if block ~ ~3 ~ $$1 run
+execute if block ~-1 ~3 ~ $$1 run tag @s add PortalX
+)
+(
+execute as @e[name=PortalLock,tag=Lock] at @s run
+execute if block ~-1 ~ ~ $$1 run
+execute if block ~-1 ~1 ~ $$1 run
+execute if block ~-1 ~2 ~ $$1 run
+execute if block ~ ~-1 ~ $$1 run
+execute if block ~1 ~-1 ~ $$1 run
+execute if block ~2 ~ ~ $$1 run
+execute if block ~2 ~1 ~ $$1 run
+execute if block ~2 ~2 ~ $$1 run
+execute if block ~ ~3 ~ $$1 run
+execute if block ~1 ~3 ~ $$1 run tag @s add PortalNX
+)
+#Z Axis Check for block
+(
+execute as @e[name=PortalLock,tag=Lock] at @s run
+execute if block ~ ~ ~1 $$1 run
+execute if block ~ ~1 ~1 $$1 run
+execute if block ~ ~2 ~1 $$1 run
+execute if block ~ ~-1 ~ $$1 run
+execute if block ~ ~-1 ~-1 $$1 run
+execute if block ~ ~ ~-2 $$1 run
+execute if block ~ ~1 ~-2 $$1 run
+execute if block ~ ~2 ~-2 $$1 run
+execute if block ~ ~3 ~ $$1 run
+execute if block ~ ~3 ~-1 $$1 run tag @s add PortalZ 
+)
+(
+execute as @e[name=PortalLock,tag=Lock] at @s run
+execute if block ~ ~ ~-1 $$1 run
+execute if block ~ ~1 ~-1 $$1 run
+execute if block ~ ~2 ~-1 $$1 run
+execute if block ~ ~-1 ~ $$1 run
+execute if block ~ ~-1 ~1 $$1 run
+execute if block ~ ~ ~2 $$1 run
+execute if block ~ ~1 ~2 $$1 run
+execute if block ~ ~2 ~2 $$1 run
+execute if block ~ ~3 ~ $$1 run
+execute if block ~ ~3 ~1 $$1 run tag @s add PortalNZ 
+)
+
+#Loops block check to detect various blocks within a radius!
+LOOP(3, y) {
+LOOP(3, xz){
+execute as @a[scores={$$0=1..}] at @s run summon area_effect_cloud ~ ~<%y%> ~ {Duration:5,CustomName:'"PortalCheck"'}
+execute as @a[scores={$$0=1..}] at @s run summon area_effect_cloud ~<%xz+1%> ~<%y%> ~ {Duration:5,CustomName:'"PortalCheck"'}
+execute as @a[scores={$$0=1..}] at @s run summon area_effect_cloud ~-<%xz+1%> ~<%y%> ~ {Duration:5,CustomName:'"PortalCheck"'}
+execute as @a[scores={$$0=1..}] at @s run summon area_effect_cloud ~ ~<%y%> ~<%xz+1%> {Duration:5,CustomName:'"PortalCheck"'}
+execute as @a[scores={$$0=1..}] at @s run summon area_effect_cloud ~ ~<%y%> ~-<%xz+1%> {Duration:5,CustomName:'"PortalCheck"'}
+execute as @a[scores={$$0=1..}] at @s run summon area_effect_cloud ~<%xz+1%> ~<%y%> ~<%xz+1%> {Duration:5,CustomName:'"PortalCheck"'}
+execute as @a[scores={$$0=1..}] at @s run summon area_effect_cloud ~-<%xz+1%> ~<%y%> ~-<%xz+1%> {Duration:5,CustomName:'"PortalCheck"'}
+execute as @a[scores={$$0=1..}] at @s run summon area_effect_cloud ~<%xz+1%> ~<%y%> ~-<%xz+1%> {Duration:5,CustomName:'"PortalCheck"'}
+execute as @a[scores={$$0=1..}] at @s run summon area_effect_cloud ~-<%xz+1%> ~<%y%> ~<%xz+1%> {Duration:5,CustomName:'"PortalCheck"'}
+        }
+    }
+
+#Summons block check!
+execute as @e[name=PortalCheck] at @s run execute if block ~ ~ ~ $$0 run execute unless entity @e[distance=0..1,name=PortalLock] run execute align xyz run summon armor_stand ~ ~ ~ {CustomName:'"PortalLock"',Invisible:1b}
+execute as @e[name=PortalCheck] at @s run execute if block ~ ~ ~ $$0 run kill @s
+
+#Aligns block check!
+execute as @e[name=PortalLock,tag=!Lock] at @s run tag @s add $$3
+execute as @e[name=PortalLock,tag=!Lock] at @s run tp @s ~0.5 ~ ~0.5
+execute as @e[name=PortalLock,tag=!Lock] at @s run tag @s add Lock
+
+#Removal
+scoreboard objectives add RemoveCheck dummy
+scoreboard players add @e[name=PortalLock] RemoveCheck 1
+kill @e[name=PortalLock,scores={RemoveCheck=20..}]
+
+#Scoreboard reset!
+scoreboard players set @a[scores={$$0=1..}] $$0 0
+}
+
+!IF("$$0" !== "item") {
+#Block Portal Generation
+execute as @e[tag=PortalX,tag=$$3] at @s run summon item_frame ~ ~ ~ {Tags:["MainX"],CustomName:'"$$3"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalX,tag=$$3] at @s run summon item_frame ~ ~1 ~ {CustomName:'"$$3"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalX,tag=$$3] at @s run summon item_frame ~ ~2 ~ {CustomName:'"$$3"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalX,tag=$$3] at @s run summon item_frame ~-1 ~ ~ {CustomName:'"$$3"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalX,tag=$$3] at @s run summon item_frame ~-1 ~1 ~ {CustomName:'"$$3"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalX,tag=$$3] at @s run summon item_frame ~-1 ~2 ~ {CustomName:'"$$3"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+
+execute as @e[tag=PortalNX,tag=$$3] at @s run summon item_frame ~ ~ ~ {Tags:["MainNX"],CustomName:'"$$3"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalNX,tag=$$3] at @s run summon item_frame ~ ~1 ~ {CustomName:'"$$3"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalNX,tag=$$3] at @s run summon item_frame ~ ~2 ~ {CustomName:'"$$3"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalNX,tag=$$3] at @s run summon item_frame ~1 ~ ~ {CustomName:'"$$3"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalNX,tag=$$3] at @s run summon item_frame ~1 ~1 ~ {CustomName:'"$$3"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalNX,tag=$$3] at @s run summon item_frame ~1 ~2 ~ {CustomName:'"$$3"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+
+execute as @e[tag=PortalZ,tag=$$3] at @s run summon item_frame ~ ~ ~ {Tags:["MainZ"],CustomName:'"$$3"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalZ,tag=$$3] at @s run summon item_frame ~ ~1 ~ {CustomName:'"$$3"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalZ,tag=$$3] at @s run summon item_frame ~ ~2 ~ {CustomName:'"$$3"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalZ,tag=$$3] at @s run summon item_frame ~ ~ ~-1 {CustomName:'"$$3"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalZ,tag=$$3] at @s run summon item_frame ~ ~1 ~-1 {CustomName:'"$$3"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalZ,tag=$$3] at @s run summon item_frame ~ ~2 ~-1 {CustomName:'"$$3"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+
+execute as @e[tag=PortalNZ,tag=$$3] at @s run summon item_frame ~ ~ ~ {Tags:["MainNZ"],CustomName:'"$$3"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalNZ,tag=$$3] at @s run summon item_frame ~ ~1 ~ {CustomName:'"$$3"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalNZ,tag=$$3] at @s run summon item_frame ~ ~2 ~ {CustomName:'"$$3"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalNZ,tag=$$3] at @s run summon item_frame ~ ~ ~1 {CustomName:'"$$3"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalNZ,tag=$$3] at @s run summon item_frame ~ ~1 ~1 {CustomName:'"$$3"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+execute as @e[tag=PortalNZ,tag=$$3] at @s run summon item_frame ~ ~2 ~1 {CustomName:'"$$3"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$2}}}}
+
+execute as @a[nbt={Dimension:"minecraft:overworld"}] at @s run execute in minecraft:overworld run tag @e[distance=0..15,name="$$3"] add ovw
+
+}
+
+!IF("$$0" == "item") {
+#Item Portal Generation
+execute as @e[tag=PortalX,tag=$$4] at @s run summon item_frame ~ ~ ~ {Tags:["MainX"],CustomName:'"$$4"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalX,tag=$$4] at @s run summon item_frame ~ ~1 ~ {CustomName:'"$$4"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalX,tag=$$4] at @s run summon item_frame ~ ~2 ~ {CustomName:'"$$4"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalX,tag=$$4] at @s run summon item_frame ~-1 ~ ~ {CustomName:'"$$4"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalX,tag=$$4] at @s run summon item_frame ~-1 ~1 ~ {CustomName:'"$$4"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalX,tag=$$4] at @s run summon item_frame ~-1 ~2 ~ {CustomName:'"$$4"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+
+execute as @e[tag=PortalNX,tag=$$4] at @s run summon item_frame ~ ~ ~ {Tags:["MainNX"],CustomName:'"$$4"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalNX,tag=$$4] at @s run summon item_frame ~ ~1 ~ {CustomName:'"$$4"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalNX,tag=$$4] at @s run summon item_frame ~ ~2 ~ {CustomName:'"$$4"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalNX,tag=$$4] at @s run summon item_frame ~1 ~ ~ {CustomName:'"$$4"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalNX,tag=$$4] at @s run summon item_frame ~1 ~1 ~ {CustomName:'"$$4"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalNX,tag=$$4] at @s run summon item_frame ~1 ~2 ~ {CustomName:'"$$4"',Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+
+execute as @e[tag=PortalZ,tag=$$4] at @s run summon item_frame ~ ~ ~ {Tags:["MainZ"],CustomName:'"$$4"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalZ,tag=$$4] at @s run summon item_frame ~ ~1 ~ {CustomName:'"$$4"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalZ,tag=$$4] at @s run summon item_frame ~ ~2 ~ {CustomName:'"$$4"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalZ,tag=$$4] at @s run summon item_frame ~ ~ ~-1 {CustomName:'"$$4"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalZ,tag=$$4] at @s run summon item_frame ~ ~1 ~-1 {CustomName:'"$$4"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalZ,tag=$$4] at @s run summon item_frame ~ ~2 ~-1 {CustomName:'"$$4"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+
+execute as @e[tag=PortalNZ,tag=$$4] at @s run summon item_frame ~ ~ ~ {Tags:["MainNZ"],CustomName:'"$$4"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalNZ,tag=$$4] at @s run summon item_frame ~ ~1 ~ {CustomName:'"$$4"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalNZ,tag=$$4] at @s run summon item_frame ~ ~2 ~ {CustomName:'"$$4"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalNZ,tag=$$4] at @s run summon item_frame ~ ~ ~1 {CustomName:'"$$4"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalNZ,tag=$$4] at @s run summon item_frame ~ ~1 ~1 {CustomName:'"$$4"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+execute as @e[tag=PortalNZ,tag=$$4] at @s run summon item_frame ~ ~2 ~1 {CustomName:'"$$4"',ItemRotation:2b,Invisible:1b,Fixed:1b,Item:{id:"minecraft:leather_boots",Count:1b,tag:{CustomModelData:1,display:{color:$$3}}}}
+
+execute as @a[nbt={Dimension:"minecraft:overworld"}] at @s run execute in minecraft:overworld run tag @e[distance=0..15,name="$$4"] add ovw
+
+}
+
+
+#Portal Mechanics!
+!IF("$$0" == "item") {
+
+execute as @e[name=$$4,tag=!ovw] at @s run scoreboard players add @p[distance=0..1.7] delay_2 1
+execute as @e[name=$$4,tag=!ovw] at @s run tag @p[distance=0..1.7,scores={delay_2=150..}] add exit_$$4
+execute as @e[name=$$4,tag=!ovw] at @s run execute as @p[distance=0..1.7,scores={delay_2=150..}] at @s run execute in minecraft:overworld run tp @s ~ ~ ~
+execute as @a[tag=exit_$$4] at @s run tp @s @e[name=$$4,limit=1,tag=ovw]
+scoreboard players set @a[tag=exit_$$4] delay_2 0
+execute as @a[tag=exit_$$4] at @s run execute unless block ~ ~-1 ~ air run tag @s remove exit_$$4
+
+
+
+
+
+execute as @e[name=$$4,tag=ovw] at @s run scoreboard players add @p[distance=0..1.7] delay_1 1
+
+execute as @e[name=$$4,tag=ovw] at @s run tag @p[distance=0..1.7,scores={delay_1=150..}] add align_$$4
+execute as @e[name=$$4,tag=ovw] at @s run execute as @p[distance=0..1.7,scores={delay_1=150..}] at @s run execute in minecraft:$$4 run tp @s ~ ~ ~
+
+execute as @a[tag=align_$$4] at @s run execute if entity @e[distance=0..,name=$$4,tag=!ovw] run tp @s @e[name=$$4,limit=1,tag=!ovw]
+scoreboard players set @a[tag=align_$$4] delay_1 0
+execute as @a[tag=align_$$4] at @s run execute unless entity @e[distance=0..,name=$$4,tag=!ovw] run spreadplayers ~ ~ 1 1 under 80 false @s
+execute as @a[tag=align_$$4] at @s run tp @s ~ ~ ~ 0 0
+execute as @a[tag=align_$$4] at @s run execute unless entity @e[distance=0..,name=$$4,tag=!ovw] run fill ^3 ^ ^-1 ^ ^4 ^-1 $$2
+execute as @a[tag=align_$$4] at @s run execute unless entity @e[distance=0..,name=$$4,tag=!ovw] run fill ^2 ^1 ^-1 ^1 ^3 ^-1 air
+execute as @a[tag=align_$$4] at @s run execute unless entity @e[distance=0..,name=$$4,tag=!ovw] run summon item ^1 ^1 ^-1 {PickupDelay:5,Item:{id:"minecraft:$$1",Count:1b}}
+execute as @a[tag=align_$$4] at @s run execute unless block ~ ~-1 ~ air run tag @s remove align_$$4
+}
+
+!IF("$$0" !== "item") {
+
+
+
+execute as @e[name=$$3,tag=!ovw] at @s run scoreboard players add @p[distance=0..1.7] delay_2 1
+execute as @e[name=$$3,tag=!ovw] at @s run tag @p[distance=0..1.7,scores={delay_2=150..}] add exit_$$3
+execute as @e[name=$$3,tag=!ovw] at @s run execute as @p[distance=0..1.7,scores={delay_2=150..}] at @s run execute in minecraft:overworld run tp @s ~ ~ ~
+execute as @a[tag=exit_$$3] at @s run tp @s @e[name=$$3,limit=1,tag=ovw]
+scoreboard players set @a[tag=exit_$$3] delay_2 0
+execute as @a[tag=exit_$$3] at @s run execute unless block ~ ~-1 ~ air run tag @s remove exit_$$3
+
+
+execute as @e[name=$$3,tag=ovw] at @s run scoreboard players add @p[distance=0..1.7] delay_1 1
+
+execute as @e[name=$$3,tag=ovw] at @s run tag @p[distance=0..1.7,scores={delay_1=150..}] add align_$$3
+execute as @e[name=$$3,tag=ovw] at @s run execute as @p[distance=0..1.7,scores={delay_1=150..}] at @s run execute in minecraft:$$3 run tp @s ~ ~ ~
+
+execute as @a[tag=align_$$3] at @s run execute if entity @e[distance=0..,name=$$3,tag=!ovw] run tp @s @e[name=$$3,limit=1,tag=!ovw]
+scoreboard players set @a[tag=align_$$3] delay_1 0
+execute as @a[tag=align_$$3] at @s run execute unless entity @e[distance=0..,name=$$3,tag=!ovw] run spreadplayers ~ ~ 1 1 under 80 false @s
+execute as @a[tag=align_$$3] at @s run tp @s ~ ~ ~ 0 0
+execute as @a[tag=align_$$3] at @s run execute unless entity @e[distance=0..,name=$$3,tag=!ovw] run fill ^3 ^ ^-1 ^ ^4 ^-1 $$1
+execute as @a[tag=align_$$3] at @s run execute unless entity @e[distance=0..,name=$$3,tag=!ovw] run fill ^2 ^1 ^-1 ^1 ^3 ^-1 air
+execute as @a[tag=align_$$3] at @s run execute unless entity @e[distance=0..,name=$$3,tag=!ovw] run summon armor_stand ^1 ^1 ^-1 {CustomName:'"PortalCheck"'}
+execute as @a[tag=align_$$3] at @s run execute unless entity @e[distance=0..,name=$$3,tag=!ovw] run setblock ^1 ^1 ^-1 $$0
+execute as @a[tag=align_$$3] at @s run execute unless block ~ ~-1 ~ air run tag @s remove align_$$3
+}
+
+
+
+scoreboard objectives add delay_1 dummy
+scoreboard objectives add delay_2 dummy
+
+execute as @a at @s run execute unless entity @e[distance=0..1.7,type=item_frame] run scoreboard players set @s delay_1 0
+execute as @a at @s run execute unless entity @e[distance=0..1.7,type=item_frame] run scoreboard players set @s delay_2 0
+
+#Removal
+
+execute as @e[tag=MainX] at @s run execute if block ~1 ~ ~ air run tag @s add Dissolve
+execute as @e[tag=MainX] at @s run execute if block ~1 ~1 ~ air run tag @s add Dissolve
+execute as @e[tag=MainX] at @s run execute if block ~1 ~2 ~ air run tag @s add Dissolve
+execute as @e[tag=MainX] at @s run execute if block ~ ~-1 ~ air run tag @s add Dissolve
+execute as @e[tag=MainX] at @s run execute if block ~-1 ~-1 ~ air run tag @s add Dissolve
+execute as @e[tag=MainX] at @s run execute if block ~-2 ~ ~ air run tag @s add Dissolve
+execute as @e[tag=MainX] at @s run execute if block ~-2 ~1 ~ air run tag @s add Dissolve
+execute as @e[tag=MainX] at @s run execute if block ~-2 ~2 ~ air run tag @s add Dissolve
+execute as @e[tag=MainX] at @s run execute if block ~ ~3 ~ air run tag @s add Dissolve
+execute as @e[tag=MainX] at @s run execute if block ~-1 ~3 ~ air run tag @s add Dissolve
+
+
+execute as @e[tag=MainNX] at @s run execute if block ~-1 ~ ~ air run tag @s add Dissolve
+execute as @e[tag=MainNX] at @s run execute if block ~-1 ~1 ~ air run tag @s add Dissolve
+execute as @e[tag=MainNX] at @s run execute if block ~-1 ~2 ~ air run tag @s add Dissolve
+execute as @e[tag=MainNX] at @s run execute if block ~ ~-1 ~ air run tag @s add Dissolve
+execute as @e[tag=MainNX] at @s run execute if block ~1 ~-1 ~ air run tag @s add Dissolve
+execute as @e[tag=MainNX] at @s run execute if block ~2 ~ ~ air run tag @s add Dissolve
+execute as @e[tag=MainNX] at @s run execute if block ~2 ~1 ~ air run tag @s add Dissolve
+execute as @e[tag=MainNX] at @s run execute if block ~2 ~2 ~ air run tag @s add Dissolve
+execute as @e[tag=MainNX] at @s run execute if block ~ ~3 ~ air run tag @s add Dissolve
+execute as @e[tag=MainNX] at @s run execute if block ~1 ~3 ~ air run tag @s add Dissolve
+
+
+execute as @e[tag=MainZ] at @s run execute if block ~ ~ ~1 air run tag @s add Dissolve
+execute as @e[tag=MainZ] at @s run execute if block ~ ~1 ~1 air run tag @s add Dissolve
+execute as @e[tag=MainZ] at @s run execute if block ~ ~2 ~1 air run tag @s add Dissolve
+execute as @e[tag=MainZ] at @s run execute if block ~ ~-1 ~ air run tag @s add Dissolve
+execute as @e[tag=MainZ] at @s run execute if block ~ ~-1 ~-1 air run tag @s add Dissolve
+execute as @e[tag=MainZ] at @s run execute if block ~ ~ ~-2 air run tag @s add Dissolve
+execute as @e[tag=MainZ] at @s run execute if block ~ ~1 ~-2 air run tag @s add Dissolve
+execute as @e[tag=MainZ] at @s run execute if block ~ ~2 ~-2 air run tag @s add Dissolve
+execute as @e[tag=MainZ] at @s run execute if block ~ ~3 ~ air run tag @s add Dissolve
+execute as @e[tag=MainZ] at @s run execute if block ~ ~3 ~-1 air run tag @s add Dissolve
+
+
+execute as @e[tag=MainNZ] at @s run execute if block ~ ~ ~-1 air run tag @s add Dissolve
+execute as @e[tag=MainNZ] at @s run execute if block ~ ~1 ~-1 air run tag @s add Dissolve
+execute as @e[tag=MainNZ] at @s run execute if block ~ ~2 ~-1 air run tag @s add Dissolve
+execute as @e[tag=MainNZ] at @s run execute if block ~ ~-1 ~ air run tag @s add Dissolve
+execute as @e[tag=MainNZ] at @s run execute if block ~ ~-1 ~1 air run tag @s add Dissolve
+execute as @e[tag=MainNZ] at @s run execute if block ~ ~ ~2 air run tag @s add Dissolve
+execute as @e[tag=MainNZ] at @s run execute if block ~ ~1 ~2 air run tag @s add Dissolve
+execute as @e[tag=MainNZ] at @s run execute if block ~ ~2 ~2 air run tag @s add Dissolve
+execute as @e[tag=MainNZ] at @s run execute if block ~ ~3 ~ air run tag @s add Dissolve
+execute as @e[tag=MainNZ] at @s run execute if block ~ ~3 ~1 air run tag @s add Dissolve
+
+execute as @e[type=item_frame] at @s run execute if block ~ ~ ~ structure_void run tag @a[distance=0..10] add RmvSVOID
+execute as @e[type=item_frame] at @s run execute if block ~ ~ ~ structure_void run kill @s
+
+execute as @e[tag=Dissolve,tag=MainX] at @s run fill ~-1 ~ ~ ~ ~2 ~ structure_void replace air
+execute as @e[tag=Dissolve,tag=MainNX] at @s run fill ~1 ~ ~ ~ ~2 ~ structure_void replace air
+execute as @e[tag=Dissolve,tag=MainZ] at @s run fill ~ ~ ~ ~ ~2 ~-1 structure_void replace air
+execute as @e[tag=Dissolve,tag=MainNZ] at @s run fill ~ ~ ~ ~ ~2 ~1 structure_void replace air
+
+
+execute as @a[tag=RmvSVOID] at @s run fill ~15 ~15 ~15 ~-15 ~-15 ~-15 air replace structure_void
+tag @a[tag=RmvSVOID] remove RmvSVOID
+
+execute as @e[tag=PortalX] at @s run setblock ~ ~ ~ air
+execute as @e[tag=PortalNX] at @s run setblock ~ ~ ~ air
+execute as @e[tag=PortalZ] at @s run setblock ~ ~ ~ air
+execute as @e[tag=PortalNZ] at @s run setblock ~ ~ ~ air
+kill @e[tag=PortalX]
+kill @e[tag=PortalNX]
+kill @e[tag=PortalZ]
+kill @e[tag=PortalNZ]
+
+}
