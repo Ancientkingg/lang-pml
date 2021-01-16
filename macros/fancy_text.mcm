@@ -1,0 +1,56 @@
+###
+Author: VelVoxelRaptor
+Description: Replaces the say command with some added functionality.
+###
+
+###
+Syntax
+
+   say <message> <color> <font>
+
+Working example!
+ say <Hello World> yellow default
+
+Note: When using spaces you need to put the message in these <>. If its a single word <> will cause it to not work!
+
+###
+
+
+macro say {   
+
+
+!IF("$$1".charAt(0) !== "#"){
+!IF("$$1" < "-1"){
+!IF("$$2" < "-1"){
+tellraw @a ["",{"text":"["},{"selector":"@s"},{"text":"]"},{"text":" $$0","color":"white","font":"default"}]
+    }
+!IF("$$2" > "-1"){
+tellraw @a ["",{"text":"["},{"selector":"@s"},{"text":"]"},{"text":" $$0","color":"white","font":"$$2"}]
+    }
+}
+}
+
+!IF("$$1".charAt(0) == "#"){
+!IF("$$1" < "-1"){
+!IF("$$2" < "-1"){
+tellraw @a ["",{"text":"["},{"selector":"@s"},{"text":"]"},{"text":" $$0","color":"$$1","font":"default"}]
+    }
+!IF("$$2" > "-1"){
+tellraw @a ["",{"text":"["},{"selector":"@s"},{"text":"]"},{"text":" $$0","color":"$$1","font":"$$2"}]
+    }
+}
+}
+
+
+!IF("$$1" > "-1"){
+!IF("$$2" < "-1"){
+tellraw @a ["",{"text":"["},{"selector":"@s"},{"text":"]"},{"text":" $$0","color":"$$1","font":"default"}]
+    }
+!IF("$$2" > "-1"){
+tellraw @a ["",{"text":"["},{"selector":"@s"},{"text":"]"},{"text":" $$0","color":"$$1","font":"$$2"}]
+    }
+}
+
+}
+
+

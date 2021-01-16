@@ -6,20 +6,22 @@ Description: Lets you generate custom portals for custom dimensions! Or regular 
 # Download the resource pack for the best effect!
 # https://mega.nz/file/DRxWjShZ#RkINpLycosM7IshIw81cxaBy6AOQAmd6KkIBaOvBXy0
 
-#Syntax
-#   portal <ignition> <base_block> <color> <dimension>
-##      ignition: How the portal is ignited. Can be a block or an item! If its an item type item then the item name (see working examples below)!
-##                Typing in fire, water, or lava, will activate when you use flint/steel or buckets, rather than the block itself!       
-###         base_block: The base block used to build your portal.
-####            color: The color of your portal. Uses the same color numbers as leather armor!
-#####               dimension: The dimension your custom portal leads to!
+###
+Syntax
+
+   portal <ignition> <base_block> <color> <dimension>
+     ignition: How the portal is ignited. Can be a block or an item! If its an item type item then the item name (see working examples below)!
+               Typing in fire, water, or lava, will activate when you use flint/steel or buckets, rather than the block itself!       
+         base_block: The base block used to build your portal.
+            color: The color of your portal. Uses the same color numbers as leather armor!
+               dimension: The dimension your custom portal leads to!
 
 
-# Working example!
-# portal item iron_sword redstone_block 0 the_nether
-# portal gold_block glowstone 16711680 not_overworld
+ Working example!
+ portal item iron_sword redstone_block 0 the_nether
+ portal gold_block glowstone 16711680 not_overworld
 
-
+###
 
 macro portal {
 
@@ -32,12 +34,12 @@ scoreboard objectives add fire minecraft.used:minecraft.flint_and_steel
 
 !IF("$$0" == "water") {
 # Bucket scoreboard for water block check!
-scoreboard objectives add water minecraft.used:minecraft.flint_and_steel
+scoreboard objectives add water minecraft.used:minecraft.water_bucket
 }
 
 !IF("$$0" == "lava") {
 # Bucket scoreboard for lava block check!
-scoreboard objectives add lava minecraft.used:minecraft.flint_and_steel
+scoreboard objectives add lava minecraft.used:minecraft.lava_bucket
 }
 
 !IF("$$0" == "item") {
