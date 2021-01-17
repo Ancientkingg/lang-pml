@@ -23,13 +23,13 @@ macro wait{
             }
             storage.tagCount += 1
             config.tagCount = storage.tagCount
-            emit("tag $$1 add mcb.context_wait_"  + config.tagCount)
+            emit("tag $$1 add context_wait_"  + config.tagCount)
         %%>
-        tag $$1 add mcb.context_wait
+        tag $$1 add context_wait
     }
     load{
         LOOP(config.tagCount,i){
-            scoreboard objectives add mcb.context_wait_<%config.tagCount%> dummy
+            scoreboard objectives add context_wait_<%config.tagCount%> dummy
         }
     }
     #checks for the time needed to wait - supports multiple units such as tick, seconds and minutes, also errors out if no unit is provided
@@ -39,17 +39,17 @@ macro wait{
                 if(!storage.clock){
                     storage.clock=true;
                     for(i = 0; i <= config.tagCount; i++){
-                        emit("scoreboard players add @e[tag=mcb.context_wait] mcb.context_wait_" + (i + 1) + " 1");
+                        emit("scoreboard players add @e[tag=context_wait] context_wait_" + (i + 1) + " 1");
                     }
                 }
                 # arguments = args[1].content.split("[")[1].split("]")
                 # console.log(arguments[0])
             %%>
-            execute as @e[tag=mcb.context_wait_<%config.tagCount%>,scores={mcb.context_wait_<%config.tagCount%>=<%"$$3".substring(0,"$$3".length - 1)%>}<%config.contextWaitArguments%>] run{
+            execute as @e[tag=context_wait_<%config.tagCount%>,scores={context_wait_<%config.tagCount%>=<%"$$3".substring(0,"$$3".length - 1)%>}<%config.contextWaitArguments%>] run{
                 function $$4
-                scoreboard players set @s mcb.context_wait_<%config.tagCount%> 0
-                tag @s remove mcb.context_wait
-                tag @s remove mcb.context_wait_<%config.tagCount%>
+                scoreboard players set @s context_wait_<%config.tagCount%> 0
+                tag @s remove context_wait
+                tag @s remove context_wait_<%config.tagCount%>
             }
             }
     }!IF("$$3".endsWith("s")){
@@ -58,15 +58,15 @@ macro wait{
                 if(!storage.clock){
                     storage.clock=true;
                     for(i = 0; i <= config.tagCount; i++){
-                        emit("scoreboard players add @e[tag=mcb.context_wait] mcb.context_wait_" + (i + 1) + " 1");
+                        emit("scoreboard players add @e[tag=context_wait] context_wait_" + (i + 1) + " 1");
                     }
                 }
             %%>
-            execute as @e[tag=mcb.context_wait_<%config.tagCount%>,scores={mcb.context_wait_<%config.tagCount%>=<%"$$3".substring(0,"$$3".length - 1)*20%>}<%config.contextWaitArguments%>] run{
+            execute as @e[tag=context_wait_<%config.tagCount%>,scores={context_wait_<%config.tagCount%>=<%"$$3".substring(0,"$$3".length - 1)*20%>}<%config.contextWaitArguments%>] run{
                 function $$4
-                scoreboard players set @s mcb.context_wait_<%config.tagCount%> 0
-                tag @s remove mcb.context_wait
-                tag @s remove mcb.context_wait_<%config.tagCount%>
+                scoreboard players set @s context_wait_<%config.tagCount%> 0
+                tag @s remove context_wait
+                tag @s remove context_wait_<%config.tagCount%>
             }
         }
     }!IF("$$3".endsWith("m")){
@@ -75,15 +75,16 @@ macro wait{
                 if(!storage.clock){
                     storage.clock=true;
                     for(i = 0; i <= config.tagCount; i++){
-                        emit("scoreboard players add @e[tag=mcb.context_wait] mcb.context_wait_" + (i + 1) + " 1");
+                        emit("scoreboard players add @e[tag=context_wait] context_wait_" + (i + 1) + " 1");
                     }
                 }
             %%>
-            execute as @e[tag=mcb.context_wait_<%config.tagCount%>,scores={mcb.context_wait_<%config.tagCount%>=<%"$$3".substring(0,"$$3".length - 1)*20*60%>}<%config.contextWaitArguments%>] run{
+            execute as @e[tag=
+            context_wait_<%config.tagCount%>,scores={context_wait_<%config.tagCount%>=<%"$$3".substring(0,"$$3".length - 1)*20*60%>}<%config.contextWaitArguments%>] run{
                 function $$4
-                scoreboard players set @s mcb.context_wait_<%config.tagCount%> 0
-                tag @s remove mcb.context_wait
-                tag @s remove mcb.context_wait_<%config.tagCount%>
+                scoreboard players set @s context_wait_<%config.tagCount%> 0
+                tag @s remove context_wait
+                tag @s remove context_wait_<%config.tagCount%>
             }
         }
     }!IF(!"$$3".endsWith("m")&&!"$$3".endsWith("s")&&!"$$3".endsWith("t")){
