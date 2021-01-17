@@ -4,7 +4,7 @@ Description: Basically /schedule but retains context for the entity.
 ###
 # Note that it will add n objectives for the amount of macro calls.
 
-#wait as @e for 200t run{}
+#wait as @e for 200t {}
 #there is no positional context so you need to add that manually
 macro wait{
     <%%
