@@ -1,0 +1,39 @@
+###
+Author: Ancientkingg
+Description: A simple macro to easily get the square root of a number
+###
+# scaled by 1000
+# you can change the scale, but it can only be a multiple of 10 that has even zeroes
+# actual scale will be number divided by 1000
+# USAGE: sqrt <name> <objective> (<name> <objective>) 
+# (<name> <objective>) means the output could be redirected to another score
+macro sqrt{
+    load{
+        scoreboard objectives add math_const dummy
+        scoreboard objectives add math_temp dummy
+        scoreboard players set #-1 math_const -1
+        scoreboard players set scale math_const 1000000
+        scoreboard players set #10 math_const 10
+    }
+    !IF("$$2".startsWith("$$")){
+        execute unless score $$0 $$1 matches ..0 run{
+            scoreboard players operation input_process math_temp = $$0 $$1
+            # scoreboard players operation input_process math_temp *= scale math_const
+            scoreboard players set const2 math_const 2
+            scoreboard players set $$0 $$1 1
+            block{
+                scoreboard players operation const4 math_const = $$0 $$1
+                scoreboard players operation const3 math_const = input_process math_temp
+                scoreboard players operation const3 math_const /= $$0 $$1
+                scoreboard players operation $$0 $$1 += const3 math_const
+                scoreboard players operation $$0 $$1 /= const2 math_const
+                scoreboard players operation const4 math_const -= $$0 $$1
+                execute unless score const4 math_const matches -1..1 run function $block
+            }
+        }
+    }
+    !IF(!"$$2".startsWith("$$")){
+        scoreboard players operation $$2 $$3 = $$0 $$1
+        macro math_sqrt $$2 $$3
+    }
+}
