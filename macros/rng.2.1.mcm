@@ -16,7 +16,12 @@ macro rng{
         scoreboard players set state rng $$1
     }
     !IF("$$0"==="range"){
-        macro rng next $$3 $$4
+        scoreboard players operation temp0 rng = state rng 
+        scoreboard players operation temp0 rng *= a rng
+        scoreboard players operation temp0 rng += c rng
+        scoreboard players operation temp0 rng %= m rng
+        scoreboard players operation state rng = temp0 rng
+        scoreboard players operation $$3 $$4 = temp0 rng
         scoreboard players operation $$3 $$4 /= #100000 rng
         scoreboard players operation $$3 $$4 %= #<%$$2-$$1%> rng
         scoreboard players add $$3 $$4 $$1
