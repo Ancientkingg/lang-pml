@@ -10,12 +10,14 @@ macro rng{
         scoreboard players set a rng 1103515245
         scoreboard players set c rng 12345
         scoreboard players set #100000 rng 100000
-        scoreboard players set #<%$$2-$$1%> rng <%$$2-$$1%>
     }
     !IF("$$0"==="seed"){
         scoreboard players set state rng $$1
     }
     !IF("$$0"==="range"){
+		load{
+        	scoreboard players set #<%$$2-$$1%> rng <%$$2-$$1%>
+		}
         scoreboard players operation temp0 rng = state rng 
         scoreboard players operation temp0 rng *= a rng
         scoreboard players operation temp0 rng += c rng
