@@ -2,92 +2,67 @@
 Author: Ancientkingg
 Description: Basically /schedule but retains context for the entity.
 ###
-# Note that it will add n objectives for the amount of macro calls.
 
-#wait as @e for 200t {}
+#wait in <obj> as @e for 200t {}
+# <obj> is automatically added by the macro
 #there is no positional context so you need to add that manually
 macro wait{
-    <%%
-        if(args[1].content.includes("[")){
-            storage.arguments = args[1].content.substring(3,args[1].content.length-1)
-            config.contextWaitArguments = "," + storage.arguments
-        }else{
-            storage.arguments = ""
-            config.contextWaitArguments = ""
-        }
-        %%>
-    !IF("$$0"==="as"){
-        <%%
-            if(storage.tagCount==undefined){
-                storage.tagCount = 0
-            }
-            storage.tagCount += 1
-            config.tagCount = storage.tagCount
-            emit("tag $$1 add context_wait_"  + config.tagCount)
-        %%>
-        tag $$1 add context_wait
-    }
+    tag $$3 add $$1
     load{
-        LOOP(config.tagCount,i){
-            scoreboard objectives add context_wait_<%config.tagCount%> dummy
-        }
+        scoreboard objectives add $$1 dummy
+    }
+    tick{
+        <%%
+            if (storage.tagCount == undefined) {
+                emit(`scoreboard players add @e[tag=$$1] $$1 1`);
+                storage.tagCount = 0;
+            }
+        %%>
     }
     #checks for the time needed to wait - supports multiple units such as tick, seconds and minutes, also errors out if no unit is provided
-    !IF("$$3".endsWith("t")){
+    !IF("$$5".endsWith("t")){
         tick{
             <%%
-                if(!storage.clock){
-                    storage.clock=true;
-                    for(i = 0; i <= config.tagCount; i++){
-                        emit("scoreboard players add @e[tag=context_wait] context_wait_" + (i + 1) + " 1");
-                    }
+                storage.selector = "$$3";
+                storage.time = ",scores={$$1=" + "$$5".substring(0,"$$5".length - 1) + "..}";
+                if (!storage.selector.endsWith("]")){
+                    storage.selector += `[tag=$$1${storage.time}]`;
+                } else{
+                    storage.selector = storage.selector.substring(0, storage.selector.length - 1);
+                    storage.selector += `,tag=$$1${storage.time}]`;
                 }
-                # arguments = args[1].content.split("[")[1].split("]")
-                # console.log(arguments[0])
+                emit(`execute as ${storage.selector} run $$6\nscoreboard players set ${storage.selector} $$1 0`)
             %%>
-            execute as @e[tag=context_wait_<%config.tagCount%>,scores={context_wait_<%config.tagCount%>=<%"$$3".substring(0,"$$3".length - 1)%>}<%config.contextWaitArguments%>] run{
-                function $$4
-                scoreboard players set @s context_wait_<%config.tagCount%> 0
-                tag @s remove context_wait
-                tag @s remove context_wait_<%config.tagCount%>
-            }
-            }
-    }!IF("$$3".endsWith("s")){
+        }
+    }!IF("$$5".endsWith("s")){
         tick{
             <%%
-                if(!storage.clock){
-                    storage.clock=true;
-                    for(i = 0; i <= config.tagCount; i++){
-                        emit("scoreboard players add @e[tag=context_wait] context_wait_" + (i + 1) + " 1");
-                    }
+                storage.selector = "$$3";
+                storage.time = ",scores={$$1=" + "$$5".substring(0,"$$5".length - 1) * 20 + "..}";
+                if (!storage.selector.endsWith("]")){
+                    storage.selector += `[tag=$$1${storage.time}]`;
+                } else{
+                    storage.selector = storage.selector.substring(0, storage.selector.length - 1);
+                    storage.selector += `,tag=$$1${storage.time}]`;
                 }
+                emit(`execute as ${storage.selector} run $$6\nscoreboard players set ${storage.selector} $$1 0`)
             %%>
-            execute as @e[tag=context_wait_<%config.tagCount%>,scores={context_wait_<%config.tagCount%>=<%"$$3".substring(0,"$$3".length - 1)*20%>}<%config.contextWaitArguments%>] run{
-                function $$4
-                scoreboard players set @s context_wait_<%config.tagCount%> 0
-                tag @s remove context_wait
-                tag @s remove context_wait_<%config.tagCount%>
-            }
         }
-    }!IF("$$3".endsWith("m")){
+    }!IF("$$5".endsWith("m")){
         tick{
-                <%%
-                if(!storage.clock){
-                    storage.clock=true;
-                    for(i = 0; i <= config.tagCount; i++){
-                        emit("scoreboard players add @e[tag=context_wait] context_wait_" + (i + 1) + " 1");
-                    }
+            <%%
+                storage.selector = "$$3";
+                storage.time = ",scores={$$1=" + "$$5".substring(0,"$$5".length - 1) * 1200 + "..}";
+                if (!storage.selector.endsWith("]")){
+                    storage.selector += `[tag=$$1${storage.time}]`;
+                } else{
+                    storage.selector = storage.selector.substring(0, storage.selector.length - 1);
+                    storage.selector += `,tag=$$1${storage.time}]`;
                 }
+                emit(`execute as ${storage.selector} run $$6\nscoreboard players set ${storage.selector} $$1 0`)
             %%>
-            execute as @e[tag=
-            context_wait_<%config.tagCount%>,scores={context_wait_<%config.tagCount%>=<%"$$3".substring(0,"$$3".length - 1)*20*60%>}<%config.contextWaitArguments%>] run{
-                function $$4
-                scoreboard players set @s context_wait_<%config.tagCount%> 0
-                tag @s remove context_wait
-                tag @s remove context_wait_<%config.tagCount%>
-            }
         }
-    }!IF(!"$$3".endsWith("m")&&!"$$3".endsWith("s")&&!"$$3".endsWith("t")){
+    }!IF(!"$$5".endsWith("m")&&!"$$5".endsWith("s")&&!"$$5".endsWith("t")){
         error [NO UNIT] Please provide a time unit to the delay (t|s|m)
     }
 }
