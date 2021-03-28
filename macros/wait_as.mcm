@@ -31,7 +31,7 @@ macro wait{
                     storage.selector = storage.selector.substring(0, storage.selector.length - 1);
                     storage.selector += `,tag=$$1${storage.time}]`;
                 }
-                emit(`execute as ${storage.selector} run $$6\nscoreboard players set ${storage.selector} $$1 0`)
+                emit(`execute as ${storage.selector} run $$6\nscoreboard players set ${storage.selector} $$1 0\ntag ${storage.selector} remove $$1`)
             %%>
         }
     }!IF("$$5".endsWith("s")){
@@ -45,7 +45,7 @@ macro wait{
                     storage.selector = storage.selector.substring(0, storage.selector.length - 1);
                     storage.selector += `,tag=$$1${storage.time}]`;
                 }
-                emit(`execute as ${storage.selector} run $$6\nscoreboard players set ${storage.selector} $$1 0`)
+                emit(`execute as ${storage.selector} run $$6\nscoreboard players set ${storage.selector} $$1 0\ntag ${storage.selector} remove $$1`)
             %%>
         }
     }!IF("$$5".endsWith("m")){
@@ -59,7 +59,7 @@ macro wait{
                     storage.selector = storage.selector.substring(0, storage.selector.length - 1);
                     storage.selector += `,tag=$$1${storage.time}]`;
                 }
-                emit(`execute as ${storage.selector} run $$6\nscoreboard players set ${storage.selector} $$1 0`)
+                emit(`execute as ${storage.selector} run $$6\nscoreboard players set ${storage.selector} $$1 0\ntag ${storage.selector} remove $$1`)
             %%>
         }
     }!IF(!"$$5".endsWith("m")&&!"$$5".endsWith("s")&&!"$$5".endsWith("t")){
