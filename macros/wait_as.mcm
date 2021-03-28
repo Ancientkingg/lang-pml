@@ -21,10 +21,10 @@ macro wait{
     }
     #checks for the time needed to wait - supports multiple units such as tick, seconds and minutes, also errors out if no unit is provided
     !IF("$$5".endsWith("t")){
-        tick{
+        schedule $$5 append{
             <%%
-                storage.selector = "$$3";
-                storage.time = ",scores={$$1=" + "$$5".substring(0,"$$5".length - 1) + "..}";
+                storage.selector = "$$3".replace("s","e");
+                storage.time = ",scores={$$1=" + "$$5".substring(0,"$$5".length - 1) + "}";
                 if (!storage.selector.endsWith("]")){
                     storage.selector += `[tag=$$1${storage.time}]`;
                 } else{
@@ -35,10 +35,10 @@ macro wait{
             %%>
         }
     }!IF("$$5".endsWith("s")){
-        tick{
+        schedule $$5 append{
             <%%
-                storage.selector = "$$3";
-                storage.time = ",scores={$$1=" + "$$5".substring(0,"$$5".length - 1) * 20 + "..}";
+                storage.selector = "$$3".replace("s","e");
+                storage.time = ",scores={$$1=" + "$$5".substring(0,"$$5".length - 1) * 20 + "}";
                 if (!storage.selector.endsWith("]")){
                     storage.selector += `[tag=$$1${storage.time}]`;
                 } else{
@@ -49,10 +49,10 @@ macro wait{
             %%>
         }
     }!IF("$$5".endsWith("m")){
-        tick{
+        schedule $$5 append{
             <%%
-                storage.selector = "$$3";
-                storage.time = ",scores={$$1=" + "$$5".substring(0,"$$5".length - 1) * 1200 + "..}";
+                storage.selector = "$$3".replace("s","e");
+                storage.time = ",scores={$$1=" + "$$5".substring(0,"$$5".length - 1) * 1200 + "}";
                 if (!storage.selector.endsWith("]")){
                     storage.selector += `[tag=$$1${storage.time}]`;
                 } else{
