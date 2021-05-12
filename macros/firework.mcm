@@ -1,3 +1,7 @@
+###
+Author: Fetchbot
+Description: Easily construct firework instead of using NBT
+###
 #firework x y z [type trail flicker [colors]]
 macro firework{
     <%%
