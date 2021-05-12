@@ -11,10 +11,10 @@ if("$$4" < 65) {
         storage.replaceCount = ""
     }
 emit (
-"item " + 
+"item replace " + 
 args[0].content + " " + 
 args[1].content + " " + 
-args[2].content + " replace " + 
+args[2].content + " with " + 
 args[3].content + " " + 
 storage.replaceCount
 )
