@@ -1,0 +1,56 @@
+#firework x y z [type trail flicker [colors]]
+macro firework{
+    <%%
+        const types = ["small_ball","large_ball","star","creeper","burst"];
+        const shapes = [];
+        let shape = {};
+        const _args = args.slice(3).map(_=>_.content);
+        while(_args.length){
+            const type = _args.shift();
+            if(types.includes(type)){
+                const typeId = types.indexOf(type);
+                const isTrail = _args.shift() === "yes";
+                const isFlicker = _args.shift() === "yes";
+                const colors_main = [];
+                const colors_fade = [];
+                let c;
+                do{
+                    c = _args[0];
+                    if(c.match(/[cf]#[0-f]{6}/)){
+                        if(c[0] === "c"){
+                            colors_main.push(parseInt(c.substr(2),16));
+                        }else{
+                            colors_fade.push(parseInt(c.substr(2),16));
+                        }
+                        _args.shift();
+                    }
+                }while(/[cf]#[0-f]{6}/.test(_args[0]))
+                shapes.push({
+                    typeId,
+                    isTrail,
+                    isFlicker,
+                    colors_main,
+                    colors_fade
+                })
+            }else if(type){
+                console.log("valid types: ",...types,"got",type);
+                throw new Error(`invalid call 'firework ${args.map(_=>_.content).join(" ")}'`)
+            }
+            
+        }
+        const nbt = [];
+        for(let i = 0;i<shapes.length;i++){
+            const shape = shapes[i];
+            let n = "{";
+            n+="Type:"+shape.typeId
+            if(shape.isTrail)n+=",Trail:1b"
+            if(shape.isFlicker)n+=",Flicker:1b"
+            if(shape.colors_main.length)n+=",Colors:[I;"+shape.colors_main.join(",")+"]"
+            if(shape.colors_fade.length)n+=",FadeColors:[I;"+shape.colors_fade.join(",")+"]"
+            n+="}"
+            nbt.push(n);
+        }
+        emit(`summon firework_rocket $$0 $$1 $$2 {FireworksItem:{id:firework_rocket,Count:1,tag:{Fireworks:{Explosions:[${nbt.join(",")}]}}}}`)
+    %%>
+    # summon firework_rocket ~ ~ ~ {FireworksItem:{id:firework_rocket,Count:1,tag:{Fireworks:{Explosions:[{Type:0}]}}}}
+}
