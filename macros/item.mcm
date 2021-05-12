@@ -1,0 +1,23 @@
+###
+Author: VelVoxelRaptor
+Description: Converts all pre 21w19a item commands into the updated format!
+###
+
+macro item{
+<%%
+if("$$5" < 65) {
+    storage.replaceCount = args[5].content
+        } else {
+        storage.replaceCount = ""
+    }
+emit (
+"item " + 
+args[3].content + " " +
+args[0].content + " " + 
+args[1].content + " " + 
+args[2].content + " with " + 
+args[4].content + " " + 
+storage.replaceCount
+)
+%%>
+}
